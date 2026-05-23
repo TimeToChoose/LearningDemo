@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shineofeidos.demo.mapper.VideoFeedMapper">
+
+    <resultMap id="VideoFeedMap" type="com.shineofeidos.demo.model.VideoFeedRow">
+        <id property="id" column="id"/>
+        <result property="tab" column="tab"/>
+        <result property="title" column="title"/>
+        <result property="coverUrl" column="cover_url"/>
+        <result property="videoUrl" column="video_url"/>
+        <result property="authorId" column="author_id"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findFeedPage" resultMap="VideoFeedMap">
+        SELECT id, tab, title, cover_url, video_url, author_id, like_count, created_at
+        FROM video_feed
+        WHERE tab = #{tab}
+        <if test="cursor != null">
+            AND id &lt; #{cursor}
+        </if>
+        ORDER BY id DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

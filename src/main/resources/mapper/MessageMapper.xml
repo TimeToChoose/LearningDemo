@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shineofeidos.demo.mapper.MessageMapper">
+
+    <resultMap id="MessageMap" type="com.shineofeidos.demo.model.DemoMessage">
+        <id property="id" column="id"/>
+        <result property="message" column="message"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findById" resultMap="MessageMap">
+        SELECT id, message, created_at
+        FROM demo_message
+        WHERE id = #{id}
+    </select>
+
+    <select id="findRecent" resultMap="MessageMap">
+        SELECT id, message, created_at
+        FROM demo_message
+        ORDER BY id DESC
+        LIMIT #{limit}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO demo_message (message)
+        VALUES (#{message})
+    </insert>
+
+</mapper>
